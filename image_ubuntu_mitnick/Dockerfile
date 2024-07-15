@@ -8,6 +8,3 @@ RUN apt-get update \
           rsh-redone-server \
     && rm -rf /var/lib/apt/lists/*
 
-WORKDIR /seed
-
-COPY . ./
